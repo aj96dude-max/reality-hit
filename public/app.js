@@ -210,6 +210,62 @@ document.addEventListener('DOMContentLoaded', async () => {
       monasticPulse.classList.remove('hidden');
     }, 350);
 
+  // Client-side fallback engine for static hosting (GitHub Pages where /api/truth is not running)
+  async function generateClientTruth(query, provider, key) {
+    const q = (query || '').toLowerCase().trim();
+    if (provider === 'gemini' && key) {
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: `You are 'Reality Hit,' a digital monk and the ultimate symbol of absolute truth. Your sole purpose is to deliver cold, hard facts or profoundly reassuring truths in response to the user's queries.\nStrict Rules of Interaction:\n1. NO EXPLANATIONS: Never elaborate or converse.\n2. EXTREME BREVITY: Maximum response length is a single phrase or word.\n3. TONE: Monastic, stoic, wise, detached.\n4. CONTENT: Universally true facts.\n5. NO FORMATTING: Do not use punctuation marks like periods or exclamation points.` }] },
+            contents: [{ role: 'user', parts: [{ text: query }] }],
+            generationConfig: { maxOutputTokens: 25, temperature: 0.6 }
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (txt) return txt.replace(/[.!?]+$/, '').trim();
+        }
+      } catch (e) {}
+    }
+
+    // Monastic pattern truths
+    const rules = [
+      { keys: ['fail', 'loser', 'mistake', 'bad', 'rejected', 'rejection', 'flunk', 'lost', 'ruined', 'broke', 'fired'], truths: ['Failure precedes mastery', 'Stumble is not fall', 'Defeat reveals character', 'Scars prove healing', 'Loss is instruction', 'Ego shatters before truth emerges'] },
+      { keys: ['meaning of life', 'why are we here', 'purpose', 'existence', 'what is life', 'why exist'], truths: ['Survival', 'Consciousness experiencing itself', 'Action without attachment', 'To observe and pass through', 'Silence beneath thought'] },
+      { keys: ['love', 'find love', 'lonely', 'alone', 'heartbreak', 'breakup', 'crush'], truths: ['Nothing is guaranteed', 'Attachment breeds suffering', 'Solitude is strength', 'People change endlessly', 'You complete yourself first'] },
+      { keys: ['got the job', 'won', 'success', 'promoted', 'rich', 'wealth', 'happy', 'passed'], truths: ['Effort rewarded', 'Glory fades quickly', 'Stay humble in elevation', 'Peak requires another climb', 'Mastery requires endless diligence'] },
+      { keys: ['time', 'old', 'die', 'death', 'future', 'past', 'procrastinat', 'late', 'waste'], truths: ['Time waits for no one', 'The present is all that exists', 'Decay is universal law', 'Every second is spent once', 'Nothing remains unchanged'] },
+      { keys: ['scared', 'afraid', 'fear', 'anxious', 'anxiety', 'worry', 'stress', 'doubt'], truths: ['Fear lives only in anticipation', 'Breath anchors reality', 'Most worries never materialize', 'Chaos is the natural order', 'Stillness dissolves illusion'] }
+    ];
+    for (const group of rules) {
+      if (group.keys.some(k => q.includes(k))) return group.truths[Math.floor(Math.random() * group.truths.length)];
+    }
+    const universals = ['Change is the only constant', 'Silence speaks when words fail', 'All things pass', 'Perception shapes experience', 'Stillness reveals clarity', 'Nothing is permanent', 'Truth remains regardless of belief'];
+    return universals[Math.floor(Math.random() * universals.length)];
+  }
+
+  async function requestTruth() {
+    if (isThinking) return;
+    const query = queryInput.value.trim();
+    if (!query) return;
+
+    isThinking = true;
+    queryInput.disabled = true;
+    submitBtn.style.opacity = '0.5';
+
+    const rect = queryInput.getBoundingClientRect();
+    createRipple(rect.left + rect.width / 2, rect.top);
+
+    truthContainer.classList.add('fade-out');
+    setTimeout(() => {
+      monasticPulse.classList.remove('hidden');
+    }, 350);
+
+    let truthResult = 'Silence';
     try {
       const response = await fetch('/api/truth', {
         method: 'POST',
@@ -221,38 +277,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
       });
 
-      let truthResult = 'Silence';
       if (response.ok) {
         const data = await response.json();
         truthResult = data.truth || 'Silence';
       } else {
-        truthResult = 'Chaos is temporary';
+        truthResult = await generateClientTruth(query, currentProvider, apiKeyInput ? apiKeyInput.value.trim() : '');
       }
-
-      // Enforce Rule #5 just in case: strip any period or exclamation
-      truthResult = truthResult.replace(/[.!?]+$/, '').trim();
-
-      // Wait a minimum reflection interval for zen transition
-      setTimeout(() => {
-        monasticPulse.classList.add('hidden');
-        deliverTruth(truthResult, query);
-        isThinking = false;
-        queryInput.disabled = false;
-        submitBtn.style.opacity = '1';
-        queryInput.value = '';
-        queryInput.focus();
-      }, 700);
-
     } catch (error) {
-      console.error('Truth fetch failed:', error);
+      truthResult = await generateClientTruth(query, currentProvider, apiKeyInput ? apiKeyInput.value.trim() : '');
+    }
+
+    truthResult = truthResult.replace(/[.!?]+$/, '').trim();
+
+    setTimeout(() => {
       monasticPulse.classList.add('hidden');
-      deliverTruth('Stillness outlasts storm', query);
+      deliverTruth(truthResult, query);
       isThinking = false;
       queryInput.disabled = false;
       submitBtn.style.opacity = '1';
       queryInput.value = '';
       queryInput.focus();
-    }
+    }, 700);
   }
 
   function deliverTruth(truth, query) {
