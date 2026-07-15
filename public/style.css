@@ -1,0 +1,701 @@
+/* ==========================================================================
+   REALITY HIT — DIGITAL MONK & ABSOLUTE TRUTH DESIGN SYSTEM
+   ========================================================================== */
+
+:root {
+  /* Strict Color Palette from Part 2 */
+  --bg-pure-white: #FFFFFF;
+  --container-subtle-1: #F7F7F7;
+  --container-subtle-2: #F2F2F2;
+  --container-subtle-3: #F0F0F0;
+  --container-border: rgba(26, 26, 26, 0.08);
+  --text-charcoal: #1A1A1A;
+  --text-muted: #666666;
+  --text-light: #999999;
+  --accent-gold: #C5A059;
+  --accent-gold-light: #EBE5D8;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Elevations & Shadows */
+  --shadow-subtle: 0 4px 24px rgba(26, 26, 26, 0.03);
+  --shadow-float: 0 12px 36px rgba(26, 26, 26, 0.06);
+  --shadow-modal: 0 24px 64px rgba(26, 26, 26, 0.12);
+
+  /* Transitions */
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fade: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-pure-white);
+  color: var(--text-charcoal);
+  font-family: var(--font-sans);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ambient Canvas Overlay */
+#ambient-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   HEADER & TOP SETTINGS PILL
+   ========================================================================== */
+.monastic-header {
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  right: 0;
+  padding: 0 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0.7;
+  transition: var(--transition-smooth);
+}
+
+.header-brand:hover {
+  opacity: 1;
+}
+
+.brand-symbol {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--text-charcoal);
+  font-weight: 300;
+}
+
+.brand-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-charcoal);
+}
+
+.settings-pill {
+  background-color: var(--container-subtle-1);
+  border: 1px solid var(--container-border);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--text-charcoal);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow-subtle);
+}
+
+.settings-pill:hover {
+  background-color: var(--container-subtle-2);
+  border-color: rgba(26, 26, 26, 0.18);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-float);
+}
+
+.settings-icon {
+  font-size: 1rem;
+  transition: transform 0.6s ease;
+}
+
+.settings-pill:hover .settings-icon {
+  transform: rotate(90deg);
+}
+
+/* ==========================================================================
+   MAIN TRUTH SANCTUARY (Dead Center Single Distraction-Free Screen)
+   ========================================================================== */
+.truth-sanctuary {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  padding: 2rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.truth-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Breathing Pulse Indicator when AI is gazing into reality */
+.monastic-pulse {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
+}
+
+.pulse-ring {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--container-border);
+  border-top-color: var(--text-charcoal);
+  animation: spin 1.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg) scale(0.95); opacity: 0.6; }
+  50% { transform: rotate(180deg) scale(1.05); opacity: 1; }
+  100% { transform: rotate(360deg) scale(0.95); opacity: 0.6; }
+}
+
+.pulse-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* Central Truth Text Display treating truth like a piece of minimalist art */
+.truth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  transition: var(--transition-fade);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.truth-container.fade-out {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+  pointer-events: none;
+}
+
+.truth-text {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-weight: 500;
+  line-height: 1.18;
+  color: var(--text-charcoal);
+  letter-spacing: -0.02em;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  position: relative;
+  word-break: break-word;
+  user-select: text;
+}
+
+/* Micro-actions beneath truth */
+.truth-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--container-subtle-1);
+  border: 1px solid var(--container-border);
+  padding: 0.35rem 0.6rem;
+  border-radius: 9999px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: var(--transition-smooth);
+}
+
+.truth-container:hover .truth-actions,
+.truth-actions:focus-within {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.action-btn:hover {
+  background-color: var(--container-subtle-3);
+  color: var(--text-charcoal);
+}
+
+.action-btn.active {
+  background-color: var(--text-charcoal);
+  color: var(--bg-pure-white);
+}
+
+/* ==========================================================================
+   MINIMALIST INPUT BOX AT THE BOTTOM
+   ========================================================================== */
+.input-sanctuary {
+  position: relative;
+  z-index: 10;
+  padding: 0 3rem 2.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  background-color: var(--container-subtle-1);
+  border: 1px solid var(--container-border);
+  border-radius: 9999px;
+  padding: 0.5rem 0.75rem 0.5rem 1.75rem;
+  width: 100%;
+  max-width: 640px;
+  box-shadow: var(--shadow-subtle);
+  transition: var(--transition-smooth);
+}
+
+.input-container:focus-within {
+  background-color: var(--container-subtle-3);
+  border-color: rgba(26, 26, 26, 0.25);
+  box-shadow: var(--shadow-float);
+  transform: translateY(-2px);
+}
+
+.query-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--text-charcoal);
+}
+
+.query-input::placeholder {
+  color: var(--text-light);
+  font-style: italic;
+  font-weight: 300;
+}
+
+.submit-btn {
+  background-color: var(--text-charcoal);
+  color: var(--bg-pure-white);
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  flex-shrink: 0;
+}
+
+.submit-btn:hover {
+  transform: scale(1.06);
+  background-color: #000000;
+}
+
+.submit-btn:active {
+  transform: scale(0.96);
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  color: var(--text-light);
+  letter-spacing: 0.03em;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10B981;
+}
+
+/* ==========================================================================
+   ZEN JOURNAL SIDEBAR DRAWER
+   ========================================================================== */
+.journal-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 380px;
+  height: 100vh;
+  background-color: var(--container-subtle-1);
+  border-left: 1px solid var(--container-border);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  box-shadow: var(--shadow-modal);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.journal-drawer.hidden {
+  transform: translateX(100%);
+}
+
+.journal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--container-border);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.journal-header h2 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.journal-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.journal-entry {
+  background-color: var(--bg-pure-white);
+  border: 1px solid var(--container-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.journal-entry-truth {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--text-charcoal);
+}
+
+.journal-entry-query {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.journal-empty {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+/* ==========================================================================
+   MONASTIC ORACLE SETTINGS MODAL
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(26, 26, 26, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-container {
+  background-color: var(--bg-pure-white);
+  border: 1px solid var(--container-border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-modal);
+  overflow: hidden;
+  transform: scale(1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.hidden .modal-container {
+  transform: scale(0.96);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: var(--container-subtle-1);
+  border-bottom: 1px solid var(--container-border);
+}
+
+.modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.modal-symbol {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--text-charcoal);
+}
+
+.modal-title-group h2 {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--text-charcoal);
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 50%;
+  transition: var(--transition-smooth);
+}
+
+.icon-btn:hover {
+  background-color: var(--container-subtle-3);
+  color: var(--text-charcoal);
+}
+
+.modal-content {
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.setting-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.setting-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-charcoal);
+  letter-spacing: 0.02em;
+}
+
+.setting-header-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge-verified {
+  background-color: var(--container-subtle-3);
+  color: var(--text-charcoal);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.provider-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.provider-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background-color: var(--container-subtle-1);
+  border: 1px solid var(--container-border);
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.provider-card:hover {
+  background-color: var(--container-subtle-3);
+}
+
+.provider-card.active {
+  background-color: var(--container-subtle-3);
+  border-color: var(--text-charcoal);
+}
+
+.provider-card input[type="radio"] {
+  margin-top: 0.2rem;
+  accent-color: var(--text-charcoal);
+}
+
+.provider-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.provider-title {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text-charcoal);
+}
+
+.provider-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.setting-input {
+  background-color: var(--container-subtle-1);
+  border: 1px solid var(--container-border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-charcoal);
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.setting-input:focus {
+  background-color: var(--container-subtle-3);
+  border-color: var(--text-charcoal);
+}
+
+.setting-help {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.toggle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.toggle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--container-subtle-1);
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.toggle-item input[type="checkbox"] {
+  accent-color: var(--text-charcoal);
+  width: 18px;
+  height: 18px;
+}
+
+.prompt-viewer {
+  background-color: var(--container-subtle-1);
+  border: 1px solid var(--container-border);
+  border-radius: 10px;
+  padding: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  color: var(--text-charcoal);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+/* Utilities */
+.hidden {
+  display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .monastic-header {
+    padding: 0 1.5rem;
+    top: 1.25rem;
+  }
+  .truth-sanctuary {
+    padding: 1rem 1.5rem;
+  }
+  .input-sanctuary {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+  .truth-text {
+    font-size: 2rem;
+  }
+}
